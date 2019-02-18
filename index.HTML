@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Countries CRUD</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    #updateRow{
+      display: none;
+    }
+	.scrollView{
+	max-height:400px;
+	overflow-Y:auto;
+	}
+  </style>
+</head>
+<body>
+<div class="container">
+<hr/>
+<form action="#"> 
+<div class="form-group">
+<div class="row">
+<div class="col-md-9">
+  <input type="text" id="addNewCountry" placeholder="New country" class="form-control">
+  </div>
+  <div class="col-md-3">
+  <input type="submit" value="Add" class="btn btn-primary" onclick="addRecords()" id="addBtn"><button class="btn btn-info" id="updateRow" onclick="update()"> Update </button>
+  </div>
+  </div>
+  </div>
+</form>
+
+<div style="padding:5px 0px;">
+
+<button type="button" class="btn btn-success">
+  Available Records : <span class="badge badge-light" id="counter"></span>
+</button>
+</div>
+<div class="scrollView">
+<table class="table table-bordered">
+  <tr>
+    <th>Name</th>
+	<th>Edit Records</th>
+	<th>Delete Records</th>
+  </tr>
+    <tbody id="countries">
+    </tbody>
+</table>
+</div>
+</div>
+<script>
+/*Generating Multiple Items in Dynamic way*/
+//var items = [];
+//for(j = 0; j<=100; j++){
+//items.push("This is Item"+j);
+//}
+
+var items = ['Book', 'Pen', 'Bench', 'Slate', 'Pencil', 'Text Book', 'Sticker','Lunch Box', 'Bag', 'Bicycle'];
+var updatedRow = document.getElementById('countries');
+var fieldValue = document.getElementById('addNewCountry');
+var globalindex;
+function loadingRecords(){ 
+var data =" "; 
+document.getElementById('counter').innerHTML = items.length;
+//if (items.length >= 0) for deleting total records from table
+  if (items.length > 0) {
+      for (i = 0; i <items.length; i++) {
+        data += '<tr>';
+        data += '<td>' + this.items[i] + '</td>';
+        data += '<td><button class="btn btn-info" onclick="editRec(' + i + ')">Edit</button></td>';
+        data += '<td><button class="btn btn-danger" onclick="deleteRec(' + i + ')">Delete</button></td>';
+        data += '</tr>';
+      }
+	  updatedRow.innerHTML = data;
+	  fieldValue.focus();
+    }
+}
+/*This is for loading records in a table at refreshing*/
+loadingRecords();
+function addRecords(){
+if(fieldValue.value!==''){
+items.push(fieldValue.value);
+	loadingRecords();
+	fieldValue.value = "";
+}
+		
+}
+ function editRec(index){
+ //alert(index); This is for testing
+ fieldValue.value = items[index];
+ document.getElementById('addBtn').style.display = 'none'
+ document.getElementById('updateRow').style.display = 'inline-block';
+ globalindex = index;
+ }
+ function update(){
+  items[globalindex] = fieldValue.value;
+  loadingRecords();
+   document.getElementById('updateRow').style.display = 'none';
+   document.getElementById('addBtn').style.display = 'inline-block'
+   fieldValue.value = "";
+ }
+ 
+function deleteRec(index){
+ //alert(index); This is for Testing
+ items.splice(index,1);
+ loadingRecords();
+ }
+
+</script>
+</body>
+</html>
